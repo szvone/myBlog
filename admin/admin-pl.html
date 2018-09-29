@@ -1,0 +1,211 @@
+
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>评论管理 -vone</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript">
+    function gettable(){
+      
+      var type = document.getElementById("type").value;
+
+      $.post("api/getpl.php?type="+type,function(data,status){
+            document.getElementById("gettable"). innerHTML = data;
+        });
+      
+    }
+    function tg(id){
+      if (confirm("确认审核通过吗？")==false) {
+        return;
+      }
+      $.post("api/eitpl.php?type=0&id="+id,function(data,status){
+            gettable();
+      });
+      
+    }
+    function del(id){
+      if (confirm("确认删除该留言吗？")==false) {
+        return;
+      }
+      $.post("api/eitpl.php?type=1&id="+id,function(data,status){
+            gettable();
+      });
+      
+    }
+
+    function search(){
+          var search = document.getElementById("search").value;
+          document.getElementById("language").value="all";
+          document.getElementById("knowledge").value="all";
+          document.getElementById("type").value="all";
+          $.post("api/question_sou.php?name="+search,function(data,status){
+              document.getElementById("gettable"). innerHTML = data;
+          });
+    }
+    
+  </script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar am-topbar-inverse admin-header">
+  <div class="am-topbar-brand">
+    <strong>Vone blog</strong> <small>后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="loginout.php"><span class="am-icon-power-off"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <ul class="am-list admin-sidebar-list">
+        <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+        <li><a href="admin-root.html"><span class="am-icon-pencil-square-o"></span> 发布文章</a></li>
+        <li><a href="admin-pl.html"><span class="am-icon-comment"></span> 评论管理</a></li>
+        <li><a href="admin-wz.html"><span class="am-icon-list-ul"></span> 文章管理</a></li>
+        <li><a href="admin-setting.html"><span class="am-icon-wrench"></span> 网站设置</a></li>
+        <li><a href="loginout.php"><span class="am-icon-sign-out"></span> 注销登录</a></li>
+      </ul>
+
+      
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">评论管理</strong></div>
+      </div>
+
+      <hr>
+
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-9">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <select data-am-selected="{btnSize: 'sm'}" id="type" onchange="gettable();">
+                <option value="0">待审核</option>
+                <option value="1">已审核</option>
+              </select>
+              &nbsp;
+
+              
+
+              
+            </div>
+          </div>
+        </div>
+        
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" placeholder="请输入关键字" id="search">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button" onclick="search()">搜索</button>
+          </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-type">编号</th>
+                <th class="table-type">所属文章</th>
+                <th class="table-type">名字</th>
+                <th class="table-type">邮箱</th>
+                <th class="table-type">网站</th>
+                <th class="table-type">内容</th>
+                <th class="table-type">时间</th>
+                <th class="table-type">IP</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody id="gettable">
+
+              </tbody>
+              <script type="text/javascript">gettable();</script>
+            </table>
+            
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left">© 2017 Powered by vone!</p>
+    </footer>
+
+  </div>
+  <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2017 Powered by vone!</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+
+function view(type,id){
+  if (type==1) {
+    window.location.href="select_view.html?id="+id;
+  }else{
+    window.location.href="input_view.html?id="+id;
+  } 
+}
+
+</script>
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title id="htmltitle"> </title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script src="assets/js/jquery.min.js"></script>
+  <style type="text/css">
+    @media(max-width:800px)
+    {
+      #log{
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body id="blog-article-sidebar">
+<!-- header start -->
+<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">
+        <img src="assets/i/title.jpg" alt="blog Logo" id="log" />
+    </div>
+</header>
+<!-- header end -->
+<hr>
+
+<!-- nav start -->
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="timeline.html">走过的路</a></li>
+    </ul>
+    <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+      </div>
+    </form>
+  </div>
+</nav>
+<!-- nav end -->
+<hr>
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed blog-content">
+    <div class="am-u-md-8 am-u-sm-12">
+      <article class="am-article blog-article-p">
+        <div class="am-article-hd">
+          <h1 class="am-article-title blog-text-center" id="title">加载中</h1>
+          <p class="am-article-meta blog-text-center">
+              <span><a href="#" class="blog-color" id="wzfl"> </a></span>-
+              <span><a href="#" id="zz"></a></span>-
+              <span><a href="#" id="date"></a></span>&nbsp;
+              <span><a href="#" id="wzhot"></a></span>
+          </p>
+        </div>        
+        <div class="am-article-bd" id="nr">
+            
+        </div>
+      </article>
+        
+        <div class="am-g blog-article-widget blog-article-margin">
+          <div class="am-u-lg-4 am-u-md-5 am-u-sm-7 am-u-sm-centered blog-text-center">
+            <div id="key"><span class="am-icon-tags"> &nbsp;</div>
+            <hr>
+            <!-- <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+            <a href=""><span class="am-icon-wechat am-icon-fw blog-icon"></span></a>
+            <a href=""><span class="am-icon-weibo am-icon-fw blog-icon"></span></a> -->
+          </div>
+        </div>
+		<script type="text/javascript">
+		function GetQueryString(name)
+		{
+
+		     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+
+		     var r = window.location.search.substr(1).match(reg);
+
+		     if(r!=null)return  unescape(r[2]); return null;
+
+		}
+			$.post("api/getxxwz.php?id="+GetQueryString("id"),function(data){
+				var obj = JSON.parse(data);
+				document.getElementById('title').innerHTML=obj.title;
+				document.getElementById('wzfl').innerHTML=obj.fl;
+				document.getElementById('zz').innerHTML=obj.zz;
+				document.getElementById('date').innerHTML=obj.date;
+				document.getElementById('nr').innerHTML=obj.nr;
+				document.getElementById('key').innerHTML+=obj.key;
+        document.getElementById('wzhot').innerHTML+="热度："+obj.hot;
+        document.getElementById('htmltitle').innerHTML+=obj.title;
+
+			});
+
+		</script>
+        <hr>
+        <div id="pl">
+
+          
+        </div>
+        <script type="text/javascript">
+          var p2 = 1;
+          function getpl(){
+            $.post("api/getpl.php?id="+GetQueryString("id")+"&page="+p2,function(data){
+              if (data!="400") {
+                document.getElementById('pl').innerHTML+=data;
+                p2++;
+              }else{
+                document.getElementById('getpl').innerHTML="没有更多评论啦";
+                document.getElementById('getpl').disabled="disabled";
+              }
+            });
+          }
+          function setpl(){
+            var name = document.getElementById('plname').value;
+            var mail = document.getElementById('plmail').value;
+            var web = document.getElementById('plurl').value;
+            var nr = document.getElementById('plnr').value;
+            if (name=="") {
+              alert("请问大侠尊姓大名？");
+              return;
+            }
+            if (mail=="") {
+              alert("请问如何联系大侠？");
+              return;
+            }
+            if (nr=="") {
+              alert("请问大侠想说啥？");
+              return;
+            }
+            var data = "name="+name+"&mail="+mail+"&nr="+nr+"&web="+web+"&wzid="+GetQueryString("id");
+
+            $.post("api/setpl.php?id="+GetQueryString("id")+"&page="+p2,data,function(data){
+              document.getElementById('plname').value="";
+              document.getElementById('plmail').value="";
+              document.getElementById('plurl').value="";
+              document.getElementById('plnr').value="";
+              alert("评论成功，等待审核通过后可见！");
+            });
+          }
+          getpl();
+        </script>
+        <center>
+        <button type="button" class="am-btn am-btn-default am-round am-icon-refresh" id="getpl" onclick="getpl()" > 点击加载更多评论 </button>
+        </center>
+        <hr>
+
+        <form class="am-form am-g">
+            <h3 class="blog-comment">评论</h3>
+          <fieldset>
+            <div class="am-form-group am-u-sm-4 blog-clear-left">
+              <input type="text" class="" placeholder="名字" id="plname">
+            </div>
+            <div class="am-form-group am-u-sm-4">
+              <input type="email" class="" placeholder="邮箱" id="plmail">
+            </div>
+
+            <div class="am-form-group am-u-sm-4 blog-clear-right">
+              <input type="password" class="" placeholder="网站" id="plurl">
+            </div>
+        
+            <div class="am-form-group">
+              <textarea class="" rows="5" placeholder="一字千金" id="plnr"></textarea>
+            </div>
+        
+            <p><button type="button" class="am-btn am-btn-default" onclick="setpl()">发表评论</button></p>
+          </fieldset>
+        </form>
+
+        <hr>
+    </div>
+   <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>关于我</span></h2>
+            <div id="about"></div>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>联系方式</span></h2>
+            <p>
+                <a href="" id="qq"  target="_blank"><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                <a href="" id="github" target="_blank"><span class="am-icon-github am-icon-fw blog-icon"></span></a>
+            </p>
+        </div>
+        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
+            <h2 class="blog-title"><span>文章分类</span></h2>
+            <div class="am-u-sm-12 blog-clear-padding" id="fl">
+            </div>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>热门文章</span></h2>
+            <ul class="am-list" id="hot">
+                
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+<script type="text/javascript">
+$.post("api/getother.php",function(data){
+  var obj = JSON.parse(data); 
+  document.getElementById('about').innerHTML=obj.about;
+  document.getElementById('qq').href=obj.qq;
+  document.getElementById('github').href=obj.github;
+  document.getElementById('foot').innerHTML=obj.foot;
+  //document.getElementById('htmltitle').innerHTML=obj.title;
+});
+$.post("api/gethot.php",function(data){
+  document.getElementById('hot').innerHTML=data;
+});
+
+$.post("api/getfl.php",function(data){
+  document.getElementById('fl').innerHTML=data;
+});
+
+</script>
+
+ <footer class="blog-footer">
+    <div class="blog-text-center" id="foot"></div>    
+  </footer>
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<!-- <script src="assets/js/app.js"></script> -->
+</body>
+</html>

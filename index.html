@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title id="title">BLOG</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <script src="assets/js/jquery.min.js"></script>
+  <meta name="msapplication-TileColor" content="#0e90d2">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <style type="text/css">
+    @media(max-width:800px)
+    {
+      #log{
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body id="blog">
+
+<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
+    <div class="am-u-sm-8 am-u-sm-centered">
+        <img src="assets/i/title.jpg" alt="blog Logo" id="log" />
+        <!-- <h2 class="am-hide-sm-only">welcome to my blog</h2> -->
+    </div>
+</header>
+<hr>
+<nav class="am-g am-g-fixed blog-fixed blog-nav">
+<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button" data-am-collapse="{target: '#blog-collapse'}" ><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="blog-collapse">
+    <ul class="am-nav am-nav-pills am-topbar-nav" id="daohang">
+      <li class="am-active" id="index"><a href="index.html">首页</a></li>
+      <li><a href="timeline.html">走过的路</a></li>
+    </ul>
+    <form class="am-topbar-form am-topbar-right am-form-inline" role="search" method="get" action="index.html" enctype="utf-8">
+      <div class="am-form-group">
+        <input type="text" class="am-form-field am-input-sm" name="key" placeholder="搜索">
+        <input type="hidden" name="type" value="search">
+      </div>
+    </form>
+  </div>
+</nav>
+<hr>
+
+
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed">
+    <div class="am-u-md-8 am-u-sm-12">
+        <div id="wz">
+        
+
+        </div>
+
+        <center>
+        <button type="button" class="am-btn am-btn-default am-round am-icon-refresh" onclick="getwz()" id="getwz"> 点击加载更多文章 </button>
+        </center>
+        <script type="text/javascript">
+          var p=1;
+          //alert();
+          if (GetQueryString("type")=="search") {
+            var data = '<li id="index"><a href="index.html">首页</a></li><li><a href="timeline.html">走过的路</a></li>';
+            document.getElementById('daohang').innerHTML=data+"<li class='am-active'><a href='#'>搜索 "+decodeURI( getwbzj(window.location.search,"key=","&"))+" 的结果</a></li>";
+          }else if(GetQueryString("type")=="fl"){
+            $.post("api/getflname.php?id="+getwbzj(window.location.search,"key=","&"),function(data) {
+              var data1 = '<li id="index"><a href="index.html">首页</a></li><li><a href="timeline.html">走过的路</a></li>';
+              document.getElementById('daohang').innerHTML=data1+"<li class='am-active'><a href='#'>正在查看 "+data+" 分类</a></li>";
+            });
+            
+          }
+
+            function getwz(){
+                $.post("api/getwz.php?page="+p+"&key="+getwbzj(window.location.search,"key=","&")+"&type="+GetQueryString("type"),function(data){
+                    if (data!="400") {
+                      document.getElementById('wz').innerHTML+=data;
+                      p++;  
+                    }else{
+                      document.getElementById('getwz').innerHTML="所有文章加载完毕"
+                      document.getElementById('getwz').disabled="disabled";
+                    }
+                });
+            }
+            getwz();
+            //取文本中间
+            function getwbzj(str,begin,end){
+              var x = str.indexOf(begin);
+              var y = str.indexOf(end);
+             
+              var getstr = str.substring(x+begin.length,y-x+1);
+              return getstr;
+            }
+                function GetQueryString(name)
+                {
+                  var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                  var r = window.location.search.substr(1).match(reg);
+                  if(r!=null)return  unescape(r[2]); return "";
+
+                }
+
+        </script>
+    </div>
+
+
+    <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>关于我</span></h2>
+            <div id="about"></div>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-text-center blog-title"><span>联系方式</span></h2>
+            <p>
+                <a href="" id="qq"  target="_blank"><span class="am-icon-qq am-icon-fw am-primary blog-icon"></span></a>
+                <a href="" id="github" target="_blank"><span class="am-icon-github am-icon-fw blog-icon"></span></a>
+            </p>
+        </div>
+        <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
+            <h2 class="blog-title"><span>文章分类</span></h2>
+            <div class="am-u-sm-12 blog-clear-padding" id="fl">
+            </div>
+        </div>
+        <div class="blog-sidebar-widget blog-bor">
+            <h2 class="blog-title"><span>热门文章</span></h2>
+            <ul class="am-list" id="hot">
+                
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+<script type="text/javascript">
+$.post("api/getother.php",function(data){
+  var obj = JSON.parse(data); 
+  document.getElementById('about').innerHTML=obj.about;
+  document.getElementById('qq').href=obj.qq;
+  document.getElementById('github').href=obj.github;
+  document.getElementById('foot').innerHTML=obj.foot;
+  document.getElementById('title').innerHTML=obj.title;
+});
+$.post("api/gethot.php",function(data){
+  document.getElementById('hot').innerHTML=data;
+});
+
+$.post("api/getfl.php",function(data){
+  document.getElementById('fl').innerHTML=data;
+});
+
+</script>
+
+ <footer class="blog-footer">
+    <div class="blog-text-center" id="foot"></div>    
+  </footer>
+
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<!-- <script src="assets/js/app.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>网站设置 -vone</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script src="assets/js/jquery.min.js"></script>
+  <script type="text/javascript">
+    function gettable(){
+      var language = document.getElementById("language").value;
+      var knowledge = document.getElementById("knowledge").value;
+      var type = document.getElementById("type").value;
+
+      $.post("api/get_question.php?language="+language+"&knowledge="+knowledge+"&type="+type,function(data,status){
+            document.getElementById("gettable"). innerHTML = data;
+        });
+      
+    };
+
+    function search(){
+          var search = document.getElementById("search").value;
+          document.getElementById("language").value="all";
+          document.getElementById("knowledge").value="all";
+          document.getElementById("type").value="all";
+          $.post("api/question_sou.php?name="+search,function(data,status){
+              document.getElementById("gettable"). innerHTML = data;
+          });
+    }
+    
+  </script>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar am-topbar-inverse admin-header">
+  <div class="am-topbar-brand">
+    <strong>Vone blog</strong> <small>后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="loginout.php"><span class="am-icon-power-off"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <ul class="am-list admin-sidebar-list">
+        <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+        <li><a href="admin-root.html"><span class="am-icon-pencil-square-o"></span> 发布文章</a></li>
+        <li><a href="admin-pl.html"><span class="am-icon-comment"></span> 评论管理</a></li>
+        <li><a href="admin-wz.html"><span class="am-icon-list-ul"></span> 文章管理</a></li>
+        <li><a href="admin-setting.html"><span class="am-icon-wrench"></span> 网站设置</a></li>
+        <li><a href="loginout.php"><span class="am-icon-sign-out"></span> 注销登录</a></li>
+      </ul>
+
+      
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">网站设置</strong></div>
+      </div>
+
+      <hr/>
+
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+          <div class="am-panel am-panel-default">
+            <div class="am-panel-bd">
+              <div class="am-g">
+                <div class="am-u-md-4">
+                  <img class="am-img-circle am-img-thumbnail" src="../assets/i/favicon.png" alt=""/>
+                </div>
+                <div class="am-u-md-8">
+                  <p>这里可以设置您博客网站的logo</p>
+                  <form class="am-form" method="post" action="api/setsystemimg.php?type=1" enctype="multipart/form-data">
+                    <div class="am-form-group">
+                      <input type="file" id="user-pic" name="file">
+                      <p class="am-form-help">请选择要上传的文件...</p>
+                      <button type="sumbit" class="am-btn am-btn-primary am-btn-xs">保存</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="am-panel am-panel-default">
+            <div class="am-panel-bd">
+
+              <div class="am-g">
+                <div class="am-u-sm-15">
+                  <img class="am-img-circle am-img-thumbnail" src="../assets/i/title.jpg" alt=""/>
+                </div>
+                <div class="am-u-sm-15">
+                  <p>这里可以设置您博客网站的主页logo</p>
+                  <form class="am-form" method="post" action="api/setsystemimg.php?type=0" enctype="multipart/form-data">
+                    <div class="am-form-group">
+                      <input type="file" id="user-pic" name="file">
+                      <p class="am-form-help">请选择要上传的文件...</p>
+                      <button type="sumbit" class="am-btn am-btn-primary am-btn-xs">保存</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+          <form class="am-form am-form-horizontal">
+            <div class="am-form-group">
+              <label for="user-name" class="am-u-sm-3 am-form-label">网站名</label>
+              <div class="am-u-sm-9">
+                <input type="text" placeholder="输入你的网站名" id="webname">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="user-qq" class="am-u-sm-3 am-form-label">QQ主页</label>
+              <div class="am-u-sm-9">
+                <input type="text" placeholder="输入你的QQ主页" id="qqurl">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="user-phone" class="am-u-sm-3 am-form-label">GitHub主页</label>
+              <div class="am-u-sm-9">
+                <input type="tel" placeholder="输入你的GitHub主页" id="githuburl">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="user-weibo" class="am-u-sm-3 am-form-label">网站底部文字</label>
+              <div class="am-u-sm-9">
+                <input type="text" placeholder="输入你的网站底部文字" id="footertext">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="user-weibo" class="am-u-sm-3 am-form-label">修改管理员密码</label>
+              <div class="am-u-sm-9">
+                <input type="text" placeholder="输入新的管理员密码，不修改则为空" id="rootpass">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="user-intro" class="am-u-sm-3 am-form-label">关于我</label>
+              <div class="am-u-sm-9">
+                <textarea class="" rows="5" placeholder="输入关于我，支持HTML标签" id="aboutme"></textarea>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <div class="am-u-sm-9 am-u-sm-push-3">
+                <button type="button" class="am-btn am-btn-primary" onclick="setsetting()">保存修改</button>
+              </div>
+            </div>
+            <script type="text/javascript">
+              $.post("api/getsetting.php",function(data){
+                var obj = JSON.parse(data);
+                document.getElementById('webname').value=obj.title;
+                document.getElementById('qqurl').value=obj.qq;
+                document.getElementById('githuburl').value=obj.github;
+                document.getElementById('aboutme').value=obj.about;
+                document.getElementById('footertext').value=obj.foot;
+              });
+              function setsetting(){
+                var title = document.getElementById('webname').value;
+                var qq = document.getElementById('qqurl').value;
+                var github = document.getElementById('githuburl').value;
+                var about = document.getElementById('aboutme').value;
+                var foot = document.getElementById('footertext').value;
+                var rootpass = document.getElementById('rootpass').value;
+
+                var data = "title="+title+"&qq="+qq+"&github="+github+"&about="+about+"&rootpass="+rootpass+"&foot="+foot;
+                $.post("api/setsetting.php",data,function(data){
+                  alert("设置更新成功！");
+                });
+              }
+            </script>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2017 Powered by vone!</p>
+</footer>
+
+  </div>
+  <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

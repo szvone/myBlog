@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+<meta charset="UTF-8">
+
+<title>Blog 后台管理系统</title>
+
+<link rel="stylesheet" href="css/reset.css">
+
+<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+
+</head>
+
+<body>
+
+<div id="window" style="display:none;">
+
+	<div class="page page-front">
+		<div class="page-content">
+			<div class="input-row">
+				<label class="label fadeIn">账号</label>
+				<input id="user" type="text" class="input fadeIn delay1"/>
+			</div>
+			<div class="input-row">
+				<label class="label fadeIn">密码</label>
+				<input id="pass" type="password" class="input fadeIn delay1"/>
+			</div>
+
+			<div class="input-row perspective">
+				<button id="submit" class="button load-btn fadeIn delay4" onclick="set()">
+					<span class="default"><i class="ion-arrow-right-b"></i>登录</span>
+					<div class="load-state">
+						<div class="ball"></div>
+						<div class="ball"></div>
+						<div class="ball"></div>
+					</div>
+				</button>
+			</div>
+			<script type="text/javascript">
+				function set(){
+					var user = document.getElementById('user').value;
+					var pass = document.getElementById('pass').value;
+					if (user=="") {
+						alert("请填写账号！");
+						return;
+					}
+					if (pass=="") {
+						alert("请填写密码！");
+						return;
+					}
+					var data = "user="+user+"&pass="+pass;
+					loading();
+					$.post("api/login.php",data,function(data){
+						success();
+						if (data!=400) {
+							document.getElementById('tsimg').src="tick.png"
+							document.getElementById('ts').innerHTML="登录成功";
+							document.getElementById('reset').style.display="none";
+							setTimeout(function(){window.location.href=data},1500);
+						}else{
+							document.getElementById('tsimg').src="error.png"
+							document.getElementById('ts').innerHTML="密码错误";
+							document.getElementById('reset').style.display="";
+						}
+						
+					});
+				}
+			</script>
+		</div>
+	</div>
+	
+	<div class="page page-back">
+		<div class="page-content">
+			<img src="tick.png" class="avatar" id="tsimg"/>
+			<p class="welcome" id="ts"></p>
+			<div class="perspective">
+				<button class="button inline trigger-anim-replay" onclick="reset()" id="reset">重填</button>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<script type="text/javascript" src='js/jquery.js'></script>
+<script type="text/javascript" src='js/fyll.js'></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+</body>
+</html>

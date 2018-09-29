@@ -1,0 +1,340 @@
+
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>编辑文章 -vone</title>
+  <meta name="description" content="这是一个form页面">
+  <meta name="keywords" content="form">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script src="assets/js/jquery.min.js"></script>
+
+  <!--引入富文本编辑器资源-->
+    <link rel="stylesheet" type="text/css" href="editor/dist/css/wangEditor.min.css">
+    <script type="text/javascript" src="editor/dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="editor/dist/js/wangEditor.js"></script>
+    <!--引入富文本编辑器资源-->
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar am-topbar-inverse admin-header">
+  <div class="am-topbar-brand">
+    <strong>Vone blog</strong> <small>后台管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+      <li class="am-dropdown" data-am-dropdown>
+        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+          <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+        </a>
+        <ul class="am-dropdown-content">
+          <li><a href="loginout.php"><span class="am-icon-power-off"></span> 退出</a></li>
+        </ul>
+      </li>
+      <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+    </ul>
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <ul class="am-list admin-sidebar-list">
+        <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+        <li><a href="admin-root.html"><span class="am-icon-pencil-square-o"></span> 发布文章</a></li>
+        <li><a href="admin-pl.html"><span class="am-icon-comment"></span> 评论管理</a></li>
+        <li><a href="admin-wz.html"><span class="am-icon-list-ul"></span> 文章管理</a></li>
+        <li><a href="admin-setting.html"><span class="am-icon-wrench"></span> 网站设置</a></li>
+        <li><a href="loginout.php"><span class="am-icon-sign-out"></span> 注销登录</a></li>
+      </ul>
+
+      
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+<!-- content start -->
+<div class="admin-content">
+  <div class="admin-content-body">
+
+    <div class="am-tabs am-margin" data-am-tabs="{noSwipe: 1}">
+      <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <li class="am-active"><a href="#tab1">文章编辑</a></li>
+      </ul>
+
+      <div class="am-tabs-bd">
+        <!-- 发布文章开始 -->
+        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">标题</div>
+            <div class="am-u-sm-8 am-u-md-10 am-u-end">
+                <input type="text" class="am-form-field" id="bt">
+            </div>
+          </div>
+
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">分类</div>
+            <div class="am-u-sm-8 am-u-md-10">
+              <select data-am-selected="{btnSize: 'sm',maxHeight: 500}" id="fl">
+                <!--选择分类-->
+                <option value="">请选择分类</option>
+              </select>
+
+              <script type="text/javascript">
+                  $.post("api/getfl.php?type=1",function(data,status){
+                    document.getElementById("fl"). innerHTML = data;
+                  });
+
+              </script>
+            </div>
+          </div>
+
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">摘要</div>
+            <div class="am-u-sm-8 am-u-md-10 am-u-end">
+                <input type="text" class="am-form-field" id="zy">
+            </div>
+          </div>
+
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">关键字</div>
+            <div class="am-u-sm-8 am-u-md-10 am-u-end">
+                <input type="text" class="am-form-field" id="keyworld">
+            </div>
+          </div>
+
+          <div class="am-g am-margin-top-sm">
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end" style="width:100%;height:90%">
+                <textarea id="select_question" style="display:none;" rows="28">
+                  
+                </textarea>
+              </div>
+          </div>
+          
+          <div class="am-g am-margin-top-sm">
+          <div class="am-text-right">
+          <input type="submit" name="" value="保存文章" class="am-btn am-btn-primary" onclick="spend()">
+          </div>
+          </div>
+          <script type="text/javascript">
+            function spend(){
+              var id = getQueryString("id");
+              var bt = document.getElementById("bt").value;
+              var fl = document.getElementById("fl").value;
+              var zy = document.getElementById("zy").value;
+              var keyworld = document.getElementById("keyworld").value;
+              var nr = base64encode(getnr());
+
+              var data = "bt="+bt+"&fl="+fl+"&zy="+zy+"&keyworld="+keyworld+"&nr="+nr+"&id="+id;
+
+              $.post("api/spend.php",data,function(data,status){
+                if (data == "200") {
+                  alert("保存成功");
+                  window.location.href="admin-wz.html"
+                }else if(data == "400"){
+                  alert("非法访问！");
+                }else{
+                  alert(data)
+                }
+              });
+            }
+
+
+            function getQueryString(name) { 
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+                    var r = window.location.search.substr(1).match(reg); 
+                    if (r != null) 
+                      return unescape(r[2]); 
+                    return null; 
+            } 
+
+            var id = getQueryString("id");
+
+
+            
+          </script>
+        </div>
+        <!-- 发布文章结束 -->
+        
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="admin-content-footer">
+    <hr>
+    <p class="am-padding-left">© 2017 Powered by vone!</p>
+  </footer>
+</div>
+<!-- content end -->
+
+
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2017 Powered by vone!</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script type="text/javascript" src="editor.js"></script>
+<script type="text/javascript">
+$.post("api/getxxwz.php?id="+id,function(data){
+              var obj = JSON.parse(data);
+              document.getElementById("bt").value = obj.title;
+              //document.getElementById("fl").value = obj.fl;
+              
+
+
+              document.getElementById("zy").value = obj.zy;
+              document.getElementById("keyworld").value = obj.keyworld;
+              appendnr(obj.nr);
+
+              var $selected = $('#fl');
+              var $o = $selected.find('option[value="'+obj.fl+'"]');
+              $o.attr('selected', !$o.get(0).selected);
+              $selected.trigger('changed.selected.amui');
+});
+
+ 
+function Base64() {
+ 
+	// private property
+	_keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+ 
+	// public method for encoding
+	this.encode = function (input) {
+		var output = "";
+		var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+		var i = 0;
+		input = _utf8_encode(input);
+		while (i < input.length) {
+			chr1 = input.charCodeAt(i++);
+			chr2 = input.charCodeAt(i++);
+			chr3 = input.charCodeAt(i++);
+			enc1 = chr1 >> 2;
+			enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+			enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+			enc4 = chr3 & 63;
+			if (isNaN(chr2)) {
+				enc3 = enc4 = 64;
+			} else if (isNaN(chr3)) {
+				enc4 = 64;
+			}
+			output = output +
+			_keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
+			_keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+		}
+		return output;
+	}
+ 
+	// public method for decoding
+	this.decode = function (input) {
+		var output = "";
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+		while (i < input.length) {
+			enc1 = _keyStr.indexOf(input.charAt(i++));
+			enc2 = _keyStr.indexOf(input.charAt(i++));
+			enc3 = _keyStr.indexOf(input.charAt(i++));
+			enc4 = _keyStr.indexOf(input.charAt(i++));
+			chr1 = (enc1 << 2) | (enc2 >> 4);
+			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+			chr3 = ((enc3 & 3) << 6) | enc4;
+			output = output + String.fromCharCode(chr1);
+			if (enc3 != 64) {
+				output = output + String.fromCharCode(chr2);
+			}
+			if (enc4 != 64) {
+				output = output + String.fromCharCode(chr3);
+			}
+		}
+		output = _utf8_decode(output);
+		return output;
+	}
+ 
+	// private method for UTF-8 encoding
+	_utf8_encode = function (string) {
+		string = string.replace(/\r\n/g,"\n");
+		var utftext = "";
+		for (var n = 0; n < string.length; n++) {
+			var c = string.charCodeAt(n);
+			if (c < 128) {
+				utftext += String.fromCharCode(c);
+			} else if((c > 127) && (c < 2048)) {
+				utftext += String.fromCharCode((c >> 6) | 192);
+				utftext += String.fromCharCode((c & 63) | 128);
+			} else {
+				utftext += String.fromCharCode((c >> 12) | 224);
+				utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+				utftext += String.fromCharCode((c & 63) | 128);
+			}
+ 
+		}
+		return utftext;
+	}
+ 
+	// private method for UTF-8 decoding
+	_utf8_decode = function (utftext) {
+		var string = "";
+		var i = 0;
+		var c = c1 = c2 = 0;
+		while ( i < utftext.length ) {
+			c = utftext.charCodeAt(i);
+			if (c < 128) {
+				string += String.fromCharCode(c);
+				i++;
+			} else if((c > 191) && (c < 224)) {
+				c2 = utftext.charCodeAt(i+1);
+				string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+				i += 2;
+			} else {
+				c2 = utftext.charCodeAt(i+1);
+				c3 = utftext.charCodeAt(i+2);
+				string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+				i += 3;
+			}
+		}
+		return string;
+	}
+}
+
+function base64encode(str){
+    var base = new Base64();  
+    var result = base.encode(str);  
+    return result;
+}
+</script>
+</body>
+</html>
